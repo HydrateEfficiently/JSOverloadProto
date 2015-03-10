@@ -17,15 +17,13 @@
 			this.name = name;
 		}
 
-		// TODO: remove need for .set() call - make overload available on "the function" (e.g. sayName)
 		Person.prototype.sayName = Overloader
 			.overload(function () {
 				this.sayName(this.name);
 			})
 			.overload(String, function (name) {
 				this.speak("My name is " + name);
-			})
-			.set();
+			});
 
 		Person.prototype.speak = function (phrase) {
 			console.log(this.name + " said '" + phrase + "'");

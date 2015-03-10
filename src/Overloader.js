@@ -23,10 +23,14 @@ define(function (require) {
 
 		overloadObj._addOverloadEntry(this._convertPsuedoTypesToKey(overloadArgs), overloadFunc);
 
-		return overloadObj;
+		var theFunc = overloadObj._evaluateOverload();
+		theFunc.overload = function () {
+			return overloadObj.overload.apply(overloadObj, arguments);
+		};
+		return theFunc;
 	};
 
-	Overloader.prototype.set = function () {
+	Overloader.prototype._evaluateOverload = function () {
 		var overloadObj = this;
 		return function () {
 			var overloadArgs = overloadObj._convertObjectsToKey(Array.prototype.slice.call(arguments)),
