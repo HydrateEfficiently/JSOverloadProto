@@ -13,21 +13,26 @@
 
 	require(["Overloader"], function (Overloader) {
 
-		function Person(name) {
-			this.name = name;
-		}
+		var Person = (function () {
 
-		Person.prototype.sayName = Overloader
-			.overload(function () {
-				this.sayName(this.name);
-			})
-			.overload(String, function (name) {
-				this.speak("My name is " + name);
-			});
+			function Person(name) {
+				this.name = name;
+			}
 
-		Person.prototype.speak = function (phrase) {
-			console.log(this.name + " said '" + phrase + "'");
-		};
+			Person.prototype.sayName = Overloader
+				.overload(function () {
+					this.sayName(this.name);
+				})
+				.overload(String, function (name) {
+					this.speak("My name is " + name);
+				});
+
+			Person.prototype.speak = function (phrase) {
+				console.log(this.name + " said '" + phrase + "'");
+			};
+
+			return Person;
+		} ());
 
 		var michael = new Person("Michael");
 		michael.speak("Hi there!");
