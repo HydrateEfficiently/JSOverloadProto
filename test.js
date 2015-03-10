@@ -11,21 +11,30 @@
 		}
 	});
 
-	require(["OverloadProto"], function (OverloadProto) {
+	require(["Overloader"], function (Overloader) {
 
-		function testFunction() {
-			OverloadProto
-				.overload(function () {
-					console.log("testFunction() called");
-				}, "string", "defaultString")
-				.overload(function (string) {
-					
-				})
-				.invoke();
+		function Person(name) {
+			this.name = name;
 		}
 
-		testFunction();
-	});
+		// TODO: remove need for .set() call - make overload available on "the function" (e.g. sayName)
+		Person.prototype.sayName = Overloader
+			.overload(function () {
+				this.sayName(this.name);
+			})
+			.overload(String, function (name) {
+				this.speak("My name is " + name);
+			})
+			.set();
 
+		Person.prototype.speak = function (phrase) {
+			console.log(this.name + " said '" + phrase + "'");
+		};
+
+		var michael = new Person("Michael");
+		michael.speak("Hi there!");
+		michael.sayName();
+		michael.sayName("ughh... Not Michael");
+	});
 } ());
 
