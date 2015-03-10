@@ -12,7 +12,19 @@
 	});
 
 	require(["OverloadProto"], function (OverloadProto) {
-		console.log(OverloadProto.test);
+
+		function testFunction() {
+			OverloadProto
+				.overload(function () {
+					console.log("testFunction() called");
+				}, "string", "defaultString")
+				.overload(function (string) {
+					
+				})
+				.invoke();
+		}
+
+		testFunction();
 	});
 
 } ());

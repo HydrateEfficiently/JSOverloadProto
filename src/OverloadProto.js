@@ -1,25 +1,32 @@
 define(function (require) {
 
-	var Util = require("Util");
+	var Type = require("Type");
 
-	// Base shmlass for Interface or Abstract shmlasses
-	var Base = function () { };
+	var OverloadProtoBase = { },
+		OverloadProto = function () { };
 
-	Base.extend = function () {
+	function addChainableFunction(funcName, func) {
+		OverloadProtoBase.prototype["funcName"] = OverloadProto.prototype["funcName"] = func;
+	}
 
-	};
+	addChainableFunction("overload", function () {
+		var isBase = this === OverloadProtoBase,
+			overloadObj = isBase ? new OverloadProto() : this;
 
-	Base.implement = function () {
+		var args = arguments,
+			argsLength = arguments.length,
+			overloadFunc = args[argsLength - 1];
 
-	};
+		if (!Type.isFunction(overloadFunc)) {
+			throw "Last argument must be the overload function";
+		}
 
-
-	var AbstractEntity = InheritableEntity.extend({
-
+		return overloadObj;
 	});
 
+	OverloadProto.prototype.invoke = function () {
 
-	console.log("Loaded src file");
+	};
 
-	return InheritableEntity;
+	return OverloadProtoBase;
 });
